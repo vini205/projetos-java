@@ -16,6 +16,7 @@ public static void main(String args[]) {
       int[][] matrix3 = new int[2][3];
       int[][] addRes;
       int[][] multRes;
+      int[][] m = {{3,2,4},{5,1,3},{2,3,1}};
       
       
       
@@ -29,7 +30,8 @@ public static void main(String args[]) {
       System.out.printf("Matriz 3: %d,%d\n",matrix3.length, matrix3[0].length);  
       showMatrix(matrix3);
       
-      
+      System.out.printf("Matriz 4: %d,%d\n",m.length, m[0].length);  
+      showMatrix(matrix1);
       
       
       
@@ -70,6 +72,31 @@ public static void main(String args[]) {
           showMatrix(multRes);
       }
       
+      
+      
+      
+        System.out.println("O determinante da seguinte matrix:");
+        showMatrix(m);
+        if(validate(m, m, "det")){
+            System.out.println("Determinante: "+det(m));
+        }
+        
+        System.out.println("O determinante da seguinte matrix:");
+        showMatrix(matrix1);
+        if(validate(matrix1, matrix1, "det")){
+            System.out.println("Determinante: "+det(matrix1));
+        }
+        
+        System.out.println("O determinante da seguinte matrix:");
+        showMatrix(matrix2);
+        if(validate(matrix2, matrix2, "det")){
+            System.out.println("Determinante: "+det(matrix2));
+        }
+      
+      
+      
+      
+      
     }
     public static boolean validate(int[][] m1,int[][] m2, String count){
         switch (count){
@@ -102,11 +129,11 @@ public static void main(String args[]) {
                     }
                 
             case "det":
-                if(m1.length==m2.length && m1[0].length == m2[0].length){
-                    System.out.println("São matrizes de tamanho igual");
+                if(m1.length== m1[0].length){
+                    System.out.println("É uma matriz quadrada");
                     return true;
                 }
-                System.out.println("São matrizes de tamanho diferente");
+                System.out.println("Não é uma matrix quadrada");
                 return false;
             default:
                 System.out.println("Tipo de conta incompatível");
@@ -189,6 +216,103 @@ public static void main(String args[]) {
         }
         
         return res;
+    }
+    
+    public static int det(int[][] m){
+        int h = m.length;
+        int a = 0;
+        int b =0;
+        int det=0;
+        int aux =1;
+
+        int[] array = new int[h+2];
+        int c=0;
+        for(int i=0;i<array.length;i++){
+            /*          
+                Array usada como referencia das colunas na hora da conta
+                em diagonal
+            */
+            
+            array[i]= c;
+            if(c==h-1){
+                c=0;
+            }else{
+
+            c++;
+            }
+        }
+      
+      
+        int[] arrayr = new int[h+2];
+        /*
+         Array invertida, usada para fazer a conta pelas diagonais, no sentido
+        inverso
+        */
+        c=h-1;
+        for(int i=0;i<arrayr.length;i++){
+           arrayr[i]= c;
+           if(c==0){
+               c=h-1;
+           }else{
+               c--;
+           }
+        }
+      
+      a += detLoop(array, h, m, 1);
+      a += detLoop(array, h, m, 2);
+      a += detLoop(array, h, m, 3);
+        
+      b+= detLoop(arrayr,h,m,-1);
+      b+= detLoop(arrayr,h,m,-2);
+      b+= detLoop(arrayr,h,m,-3);
+      
+      det = a-b;
+      
+      
+      return det;
+    }
+    public static int detLoop(int[] array,int h,int[][] m,int type){
+        int aux =1;
+        switch (type){
+            case 1:
+                for(int l =0; l<h;l++){//1 diagonal
+                    int col = array[l];// contador para a coluna
+                    aux *= m[l][col];
+                }
+                break;
+            case 2:
+                for(int l =0; l<h;l++){//2 diagonal
+                    int col = array[l+1];// contador para a coluna
+                    aux *= m[l][col];
+                }
+                break;
+            case 3:
+                for(int l =0; l<h;l++){//3 diagonal
+                    int col = array[l+2];// contador para a coluna
+                    aux *= m[l][col];
+                }
+                break;
+            case -1:
+                for(int l=0;l<h;l++){// 1 Diagonal Invertida
+                    int col = array[l];
+                    aux *= m[l][col];
+                }
+                break;
+            case -2:
+                for(int l=0;l<h;l++){// 2 Diagonal Invertida
+                    int col = array[l+1];
+                    aux *= m[l][col];
+                }
+                break;
+            case -3:
+                for(int l=0;l<h;l++){// 3 Diagonal Invertida
+                    int col = array[l+2];
+                    aux *= m[l][col];
+                }
+                break;
+                    
+        }
+        return aux;
     }
 }
 

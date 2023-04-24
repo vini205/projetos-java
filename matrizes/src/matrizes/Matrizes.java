@@ -4,6 +4,8 @@
  */
 package matrizes;
 
+import java.util.Arrays;
+
 /**
  *
  * @author vini
@@ -31,7 +33,7 @@ public static void main(String args[]) {
       showMatrix(matrix3);
       
       System.out.printf("Matriz 4: %d,%d\n",m.length, m[0].length);  
-      showMatrix(matrix1);
+      showMatrix(m);
       
       
       
@@ -93,10 +95,17 @@ public static void main(String args[]) {
             System.out.println("Determinante: "+det(matrix2));
         }
       
+      System.out.println("Transpoda da matrix 1:");
+      showMatrix(transpota(matrix1));
       
+      System.out.println("Transpoda da matrix 2:");
+      showMatrix(transpota(matrix2));
       
+      System.out.println("Transpoda da matrix 3:");
+      showMatrix(transpota(matrix3));
       
-      
+      System.out.println("Transpoda da matrix 4:");
+      showMatrix(transpota(m));
     }
     public static boolean validate(int[][] m1,int[][] m2, String count){
         switch (count){
@@ -104,7 +113,8 @@ public static void main(String args[]) {
                 if(m1[0].length==m2.length){// Multiplicar
                     return true;
                 }else{
-                    System.out.println("O tamanho da coluna da primeira é diferente da segunda! Não pode multiplicá-las");  
+                    System.out.println("O tamanho da coluna da primeira é"
+                            + " diferente da segunda! Não pode multiplicá-las");  
                     return false;
                 }
                 
@@ -119,7 +129,8 @@ public static void main(String args[]) {
                               return true;
                           }
                       }else{
-                          System.out.println("As matrizes tem tamanhos diferentes, não pode somá-las");  
+                          System.out.println("As matrizes tem tamanhos diferen"
+                                  + "tes, não pode somá-las");  
                           return false;
                       }
                     }
@@ -313,6 +324,19 @@ public static void main(String args[]) {
                     
         }
         return aux;
+    }
+    public static int[][] transpota(int[][] m){
+        int linha = m.length;
+        int coluna = m[0].length;
+
+        int[][] transpota = new int[coluna][linha];
+        for (int l = 0; l < linha; l++) {
+            for (int c = 0; c < coluna; c++) {
+                transpota[c][l] = m[l][c];// Inverte coluna e lina
+                
+            }
+        }
+        return transpota;
     }
 }
 
